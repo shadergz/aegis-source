@@ -2,16 +2,15 @@
 
 #include <filesystem>
 #include <memory>
-#include <utility>
 
 namespace aegis::fs {
     class path {
     public:
         path() = default;
-        path(const std::string& storage) : fsPath(storage) {
+        explicit path(const std::string& storage) : fsPath(storage) { // NOLINT(*-pass-by-value)
         }
         path operator /(const std::string& concat) const {
-            return {fsPath + "/" + concat};
+            return path{fsPath + "/" + concat};
         }
 
         explicit operator std::filesystem::path() const {
@@ -35,7 +34,7 @@ namespace aegis {
         fs::path icons;
 
         static void checkDir(const fs::path& dir);
-        void testAndTouchDirectories(fs::path& applicationPath, bool& checked);
+        void testAndTouchDirectories(const fs::path& applicationPath, bool& checked);
     };
 
     inline std::unique_ptr<Application> app;
