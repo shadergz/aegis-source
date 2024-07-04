@@ -1,0 +1,3 @@
+[submodule "android/app"]
+	path = android/app
+	url = https://github.com/darkluar/aegis-app.git
