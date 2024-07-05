@@ -1,16 +1,17 @@
-#include <application.h>
+#include <interface/application.h>
 
-namespace aegis {
+namespace aegis::interface {
     void Application::checkDir(const fs::path& dir) {
-        if (const std::filesystem::path& checkPath{dir}; !is_directory(checkPath)) {
+        const std::filesystem::path checkPath{dir};
+        if (!is_directory(checkPath)) {
             create_directory(checkPath);
         }
     }
 
-    void Application::testAndTouchDirectories(
+    void Application::checkAndTouchDirectories(
         const fs::path& applicationPath, bool& checked) {
-        if (const std::filesystem::path& rootStorage{applicationPath};
-            !is_directory(rootStorage)) {
+        const std::filesystem::path rootStorage{applicationPath};
+        if (!is_directory(rootStorage)) {
             return;
         }
         cacheDir = applicationPath;

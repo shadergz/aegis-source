@@ -21,7 +21,7 @@ namespace aegis::fs {
     };
 }
 
-namespace aegis {
+namespace aegis::interface {
     class Application {
     public:
         Application() = default;
@@ -34,7 +34,7 @@ namespace aegis {
         fs::path icons;
 
         static void checkDir(const fs::path& dir);
-        void testAndTouchDirectories(const fs::path& applicationPath, bool& checked);
+        void checkAndTouchDirectories(const fs::path& applicationPath, bool& checked);
     };
 
     inline std::unique_ptr<Application> app;
