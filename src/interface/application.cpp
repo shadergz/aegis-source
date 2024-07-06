@@ -56,6 +56,7 @@ namespace aegis::interface {
         if (!isSanitized)
             return;
 
+        keysBank.getKeys(keys);
         while (!keysBank.hasKeys()) {
             if (!userRequests["keys_prod"]())
                 return;
