@@ -12,7 +12,7 @@ namespace aegis {
         std::vector<void*> frames{};
 #if defined(ANDROID)
         host::StackFrame* frame{};
-        getStackRegister(&frame);
+        __asm("mov %0, fp" : "=r" (frame));
 
         if (frame)
             frame = frame->next;

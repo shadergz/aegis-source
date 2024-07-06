@@ -6,15 +6,11 @@ namespace aegis::host {
         void* link;
     };
 #if defined(ANDROID) && defined(__aarch64__)
-    __attribute__((always_inline)) inline void getStack(StackFrame** stack) {
-        __asm("mov %0, fp" : "=r" (*stack));
-    }
-
     class ScopedBarrier {
     public:
-        __attribute__((noinline)) ScopedBarrier()  {
+        __attribute__((noinline)) ScopedBarrier() {
             StackFrame* frame{};
-            getStack(&frame);
+            __asm("mov %0, fp" : "=r" (frame));
             savedFrame = *frame;
             if (!frame)
                 return;
@@ -23,7 +19,7 @@ namespace aegis::host {
         }
         __attribute__((noinline)) ~ScopedBarrier() {
             StackFrame* frame;
-            getStack(&frame);
+            __asm("mov %0, fp" : "=r" (frame));
             if (frame)
                 *frame = savedFrame;
         }
