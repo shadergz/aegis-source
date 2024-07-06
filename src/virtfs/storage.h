@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-#include <aegis/types.h>
+#include <base/types.h>
 #include <virtfs/path.h>
 namespace aegis::virtfs {
     using StorageInfo = struct stat;

@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(source STATIC)
+
+add_subdirectory(external)
 add_subdirectory(src)
 
 target_link_libraries(source PUBLIC interface)

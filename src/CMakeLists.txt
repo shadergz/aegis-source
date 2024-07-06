@@ -5,7 +5,9 @@ include_directories(.)
 add_library(interface STATIC)
 
 target_sources(interface PUBLIC
-    aegis/types.h
+    base/types.h
+    base/exception.cpp
+    base/exception.h
     interface/application.cpp
     interface/application.h
     secret/keys_bank.cpp
@@ -15,4 +17,6 @@ target_sources(interface PUBLIC
     virtfs/directory.h
     virtfs/storage.cpp
     virtfs/storage.h
+    host/barrier.h
 )
+target_link_libraries(interface PUBLIC fmt::fmt)

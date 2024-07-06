@@ -1,3 +1,4 @@
+#include <base/exception.h>
 #include <interface/application.h>
 
 namespace aegis::interface {
@@ -30,7 +31,36 @@ namespace aegis::interface {
         checked = true;
     }
 
+    void Application::placeUserRequest(const std::string& request, RequestUser&& callback) {
+        if (userRequests.contains(request)) {
+            return;
+        }
+        userRequests.emplace(request, callback);
+    }
+    void Application::sanitizeRequests() {
+        if (isSanitized)
+            return;
+        const std::array<std::string, 1> validRequests {
+            "keys_prod"
+        };
+        for (const auto& request : validRequests) {
+            if (!userRequests.contains(request))
+                return;
+        }
+        isSanitized = true;
+    }
     void Application::initialize() {
-        keysBank.getKeys(keys);
+        if (isInitialized)
+            return;
+        sanitizeRequests();
+        if (!isSanitized)
+            return;
+
+        while (!keysBank.hasKeys()) {
+            if (!userRequests["keys_prod"]())
+                return;
+            keysBank.getKeys(keys);
+        }
+        isInitialized = true;
     }
 }
