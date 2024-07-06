@@ -1,40 +1,28 @@
 #pragma once
 
-#include <filesystem>
 #include <memory>
 
-namespace aegis::fs {
-    class path {
-    public:
-        path() = default;
-        explicit path(const std::string& storage) : fsPath(storage) { // NOLINT(*-pass-by-value)
-        }
-        path operator /(const std::string& concat) const {
-            return path{fsPath + "/" + concat};
-        }
-
-        explicit operator std::filesystem::path() const {
-            return {fsPath};
-        }
-    private:
-        std::string fsPath;
-    };
-}
+#include <secret/keys_bank.h>
+#include <virtfs/path.h>
 
 namespace aegis::interface {
     class Application {
     public:
         Application() = default;
 
-        fs::path cacheDir;
-        fs::path shaderCache;
-        fs::path keys;
-        fs::path logs;
-        fs::path nand;
-        fs::path icons;
+        virtfs::path cacheDir;
+        virtfs::path shaderCache;
+        virtfs::path keys;
+        virtfs::path logs;
+        virtfs::path nand;
+        virtfs::path icons;
 
-        static void checkDir(const fs::path& dir);
-        void checkAndTouchDirectories(const fs::path& applicationPath, bool& checked);
+        static void checkDir(const virtfs::path& dir);
+        void checkAndTouchDirectories(const virtfs::path& applicationPath, bool& checked);
+
+        void initialize();
+    private:
+        secret::KeysBank keysBank;
     };
 
     inline std::unique_ptr<Application> app;

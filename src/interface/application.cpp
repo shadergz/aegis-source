@@ -1,7 +1,7 @@
 #include <interface/application.h>
 
 namespace aegis::interface {
-    void Application::checkDir(const fs::path& dir) {
+    void Application::checkDir(const virtfs::path& dir) {
         const std::filesystem::path checkPath{dir};
         if (!is_directory(checkPath)) {
             create_directory(checkPath);
@@ -9,7 +9,7 @@ namespace aegis::interface {
     }
 
     void Application::checkAndTouchDirectories(
-        const fs::path& applicationPath, bool& checked) {
+        const virtfs::path& applicationPath, bool& checked) {
         const std::filesystem::path rootStorage{applicationPath};
         if (!is_directory(rootStorage)) {
             return;
@@ -28,5 +28,9 @@ namespace aegis::interface {
         checkDir(icons);
 
         checked = true;
+    }
+
+    void Application::initialize() {
+        keysBank.getKeys(keys);
     }
 }
