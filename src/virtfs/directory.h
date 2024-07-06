@@ -17,7 +17,8 @@ namespace aegis::virtfs {
 
     private:
         void populate();
-        i32 pos{},
+        std::uintptr_t
+            pos{},
             end{},
             cursor{};
         std::array<u8, 2048> entries{};
