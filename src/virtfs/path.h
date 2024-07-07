@@ -13,7 +13,9 @@ namespace aegis::virtfs {
         explicit operator std::string() const {
             return fsPath;
         }
-
+        [[nodiscard]] auto get() const {
+            return fsPath.c_str();
+        }
         explicit operator std::filesystem::path() const {
             return {fsPath};
         }

@@ -9,7 +9,7 @@ namespace aegis {
     public:
         template <typename... Args>
         explicit exception(fmt::format_string<Args...> format, Args&&... args) :
-            std::runtime_error(fmt::format(format, std::forward<Args>(args)...)),
+            std::runtime_error(fmt::format(fmt::runtime(format), std::forward<Args>(args)...)),
             stack(getStackFrame()) {
         }
     private:

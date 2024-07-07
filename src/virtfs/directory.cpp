@@ -1,6 +1,8 @@
-#include <virtfs/directory.h>
-
+#include <fcntl.h>
 #include <sys/syscall.h>
+#include <unistd.h>
+
+#include <virtfs/directory.h>
 namespace aegis::virtfs {
     bool Directory::fileExist(const std::string& target) {
         populate();
@@ -11,13 +13,17 @@ namespace aegis::virtfs {
         }
         return exist;
     }
+    void Directory::produceFlags() {
+        flags = O_RDONLY | O_DIRECTORY;
+    }
+
     void Directory::populate() {
-        sanitize();
-        if (!changed && !dire.empty())
+        if (!isChanged() && !dire.empty())
             return;
 
         pos = end = cursor = {};
-        end = syscall(SYS_getdents64, vFd, entries.data(), entries.size());
+        end = syscall(SYS_getdents64, fd, entries.data(), entries.size());
+        size = end;
         if (end <= 0)
             return;
         while (pos < end) {
@@ -26,6 +32,5 @@ namespace aegis::virtfs {
             pos += entry->d_reclen;
             cursor = entry->d_off;
         }
-        changed = {};
     }
 }

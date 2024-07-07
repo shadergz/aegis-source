@@ -12,11 +12,15 @@ target_sources(interface PUBLIC
     interface/application.h
     secret/keys_bank.cpp
     secret/keys_bank.h
+    secret/encode.h
     virtfs/path.h
     virtfs/directory.cpp
     virtfs/directory.h
-    virtfs/storage.cpp
-    virtfs/storage.h
+    virtfs/os_accessor.h
+    virtfs/device_backing.cpp
+    virtfs/device_stream.h
+    virtfs/device_stream.cpp
+    virtfs/device_stream.h
     host/barrier.h
 )
 target_link_libraries(interface PUBLIC fmt::fmt)
